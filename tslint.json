@@ -1,0 +1,10 @@
+{
+    "defaultSeverity": "error",
+    "extends": ["tslint-config-airbnb", "tslint-config-prettier"],
+    "rules": {
+        "no-boolean-literal-compare": true,
+        "no-console": [true, "log", "error"],
+        "ban": [true, "alert"],
+        "import-name": [false]
+    }
+}

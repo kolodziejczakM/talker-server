@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "preserveConstEnums": true,
+        "removeComments": true,
+        "sourceMap": true,
+        "outDir": "dist",
+        "target": "es6",
+        "experimentalDecorators": true,
+        "esModuleInterop": true
+    },
+    "include": ["./src/**/*"]
+}
