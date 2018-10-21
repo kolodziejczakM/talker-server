@@ -5,6 +5,7 @@
         "no-boolean-literal-compare": true,
         "no-console": [true, "log", "error"],
         "ban": [true, "alert"],
-        "import-name": [false]
+        "import-name": [false],
+        "variable-name": [false]
     }
 }
