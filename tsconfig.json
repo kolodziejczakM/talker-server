@@ -9,7 +9,8 @@
         "outDir": "dist",
         "target": "es6",
         "experimentalDecorators": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "lib": ["esnext.asynciterable", "es2015"]
     },
     "include": ["./src/**/*"]
 }

@@ -1,11 +1,17 @@
-import graphql, { GraphQLSchema } from 'graphql';
+import * as graphql from 'graphql';
 
-const { GraphQLObjectType, GraphQLString, GraphQLBoolean } = graphql;
+const {
+    GraphQLObjectType,
+    GraphQLString,
+    GraphQLBoolean,
+    GraphQLID,
+    GraphQLSchema
+} = graphql;
 
 const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
-        id: { type: GraphQLString },
+        id: { type: GraphQLID },
         login: { type: GraphQLString },
         firstName: { type: GraphQLString },
         lastName: { type: GraphQLString },
@@ -18,7 +24,7 @@ const UserType = new GraphQLObjectType({
 const MessageType = new GraphQLObjectType({
     name: 'Message',
     fields: () => ({
-        id: { type: GraphQLString },
+        id: { type: GraphQLID },
         creatorId: { type: GraphQLString },
         creationDate: { type: GraphQLString }, // TODO: check if that type is valid. Maybe there is Date type
         content: { type: GraphQLString },
@@ -33,15 +39,15 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         user: {
             type: UserType,
-            args: { id: { type: GraphQLString } },
-            resolve: (parent, args) {
+            args: { id: { type: GraphQLID } },
+            resolve: (parent, args) => {
                 // code to get data from db
             }
         },
         message: {
             type: MessageType,
-            args: { id: { type: GraphQLString } },
-            resolve: (parent, args) {
+            args: { id: { type: GraphQLID } },
+            resolve: (parent, args) => {
                 // code to get data from db
             }
         }
