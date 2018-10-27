@@ -15,10 +15,12 @@ app.get('/', (req, res) => {
 
 server.listen(4002, () => {
     // tslint:disable-next-line
-    console.log('Example app listening on port 4002!');
+    console.log('Server is listening on port 4002!');
 });
 
 io.sockets.on('connection', socket => {
-    // tslint:disable-next-line
-    console.log('someone has joined.');
+    socket.on('ON_CLICK', (msg: string) => {
+        // tslint:disable-next-line
+        console.log('message: ', msg);
+    });
 });
