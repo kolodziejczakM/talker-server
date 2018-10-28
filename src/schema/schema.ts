@@ -1,23 +1,25 @@
 import * as graphql from 'graphql';
+import User from '../models/user';
 
 const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLBoolean,
     GraphQLID,
-    GraphQLSchema
+    GraphQLSchema,
+    GraphQLNonNull
 } = graphql;
 
 const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         id: { type: GraphQLID },
-        login: { type: GraphQLString },
-        firstName: { type: GraphQLString },
-        lastName: { type: GraphQLString },
-        displayName: { type: GraphQLString },
-        password: { type: GraphQLString },
-        avatarName: { type: GraphQLString }
+        // login: { type: GraphQLString },
+        firstName: { type: GraphQLString }
+        // lastName: { type: GraphQLString },
+        // displayName: { type: GraphQLString },
+        // password: { type: GraphQLString },
+        // avatarName: { type: GraphQLString }
     })
 });
 
@@ -34,6 +36,8 @@ const MessageType = new GraphQLObjectType({
     })
 });
 
+const users = [{ id: '1', firstName: 'Andrzej' }, { id: '2', firstName: 'Zdzisław' }];
+
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
@@ -42,6 +46,10 @@ const RootQuery = new GraphQLObjectType({
             args: { id: { type: GraphQLID } },
             resolve: (parent, args) => {
                 // code to get data from db
+                // return users.find(
+                //     (user: { id: string; firstName: string }): boolean =>
+                //         user.id === args.id
+                // );
             }
         },
         message: {
@@ -54,6 +62,26 @@ const RootQuery = new GraphQLObjectType({
     }
 });
 
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        addUser: {
+            type: UserType,
+            args: {
+                firstName: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parent, args) {
+                const user = new User({
+                    firstName: args.firstName
+                });
+                // TODO: password hashing
+                return user.save();
+            }
+        }
+    }
+});
+
 export default new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 });

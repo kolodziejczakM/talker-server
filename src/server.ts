@@ -4,6 +4,7 @@ import schema from './schema/schema';
 import socketIO from 'socket.io';
 import jwt from 'express-jwt';
 import config from '../config.json';
+import mongoose from 'mongoose';
 // import jsonwebtoken from 'jsonwebtoken';
 
 // TODO: move to another file
@@ -14,6 +15,17 @@ interface RequestNotAuthenticated extends Request {
 const app = express();
 const server = app.listen(4002);
 const io = socketIO.listen(server);
+
+mongoose.connect(
+    `mongodb://${config.dbUser}:${config.dbPassword}@ds143893.mlab.com:43893/gql-talker`,
+    { useNewUrlParser: true }
+);
+
+mongoose.connection.once('open', () => {
+    // tslint:disable-next-line
+    console.log('Connected to database.');
+});
+
 const auth = jwt({
     secret: config.jwtSecret,
     credentialsRequired: false, // Users should to be able to at least signup and login first.
@@ -28,6 +40,7 @@ const auth = jwt({
         if (req.query && req.query.token) {
             return req.query.token;
         }
+
         return null;
     }
 });
@@ -37,12 +50,12 @@ app.use(
     auth,
     graphqlHTTP({
         schema,
-        graphiql: false // Boolean(process.env.development)
+        graphiql: true // Boolean(process.env.development)
     })
 );
 
 app.get('/', (req, res) => {
-    res.send('OK');
+    res.send('ok');
 });
 
 server.listen(4002, () => {
