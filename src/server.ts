@@ -5,6 +5,8 @@ import socketIO from 'socket.io';
 import jwt from 'express-jwt';
 import config from '../config.json';
 import mongoose from 'mongoose';
+import cors from 'cors';
+
 // import jsonwebtoken from 'jsonwebtoken';
 
 // TODO: move to another file
@@ -13,6 +15,7 @@ interface RequestNotAuthenticated extends Request {
 }
 
 const app = express();
+app.use(cors());
 const server = app.listen(4002);
 const io = socketIO.listen(server);
 
@@ -30,6 +33,7 @@ const auth = jwt({
     secret: config.jwtSecret,
     credentialsRequired: false, // Users should to be able to at least signup and login first.
     getToken: req => {
+        // TODO: Move it somewhere else - it has to be used in graphql resolvers
         if (
             req.headers.authorization &&
             req.headers.authorization.split(' ')[0] === 'Bearer'

@@ -7,7 +7,8 @@ const {
     GraphQLBoolean,
     GraphQLID,
     GraphQLSchema,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLList
 } = graphql;
 
 const UserType = new GraphQLObjectType({
@@ -52,6 +53,12 @@ const RootQuery = new GraphQLObjectType({
                 // );
             }
         },
+        users: {
+            type: new GraphQLList(UserType),
+            resolve() {
+                return User.find();
+            }
+        },
         message: {
             type: MessageType,
             args: { id: { type: GraphQLID } },
@@ -70,7 +77,8 @@ const Mutation = new GraphQLObjectType({
             args: {
                 firstName: { type: new GraphQLNonNull(GraphQLString) }
             },
-            resolve(parent, args) {
+            resolve(parent, args, context) {
+                console.log('context');
                 const user = new User({
                     firstName: args.firstName
                 });
