@@ -15,9 +15,9 @@ interface RequestNotAuthenticated extends Request {
 }
 
 const app = express();
-app.use(cors());
 const server = app.listen(process.env.PORT || 4002);
 const io = socketIO.listen(server);
+app.use(cors());
 
 mongoose.connect(
     `mongodb://${config.dbUser}:${config.dbPassword}@ds143893.mlab.com:43893/gql-talker`,
